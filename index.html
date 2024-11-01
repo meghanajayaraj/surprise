@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Card</title>
+    <style type="text/css">
+        body {
+            height: 100%;
+            margin: 0;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+
+        .card {
+            position: relative;
+            width: 300px;
+            height: 425px;
+            border: 10px solid #9612eb;
+            margin: 60px auto 0 auto;
+            box-shadow: inset 10px 0px 15px 0px rgba(0, 0, 0, 0.1);
+            perspective: 1000px;
+        }
+
+        .card .front,
+        .card .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin: -10px 0px 0px -10px;
+            border: 10px solid #9612eb;
+            background-color: #9612eb;
+            transform-style: preserve-3d;
+            transition: all 0.8s ease-in-out;
+            z-index: 1;
+        }
+
+        .card .front {
+            background-image: url("https://images.unsplash.com/photo-1527481138388-31827a7c94d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60");
+            background-size: contain;
+            z-index: 2;
+            transform-origin: 0% 50%;
+        }
+
+        .card .back {
+            background-color: #e6f0e6;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, .5));
+            position: absolute;
+            backface-visibility: hidden;
+            z-index: 0;
+        }
+
+        .card:hover .front {
+            transform: perspective(800px) rotateY(-180deg);
+        }
+
+        .card:hover .back {
+            transform: perspective(800px) rotateY(0deg);
+            box-shadow: 7px 0px 5px 0px rgba(0, 0, 0, 0.3), inset 2px 0px 15px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .page {
+            background-color: #722c91; /* Adjusted to match the cover image color */
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: left;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 2;
+            transform-origin: 0% 50%;
+            backface-visibility: hidden;
+        }
+
+        .page.visible {
+            opacity: 1;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .text-container {
+            width: 100%;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        .text-container p {
+            font-size: 1.1em;
+            line-height: 1.4;
+            font-family: 'Nobile', sans-serif;
+            color: #ffffff; /* Adjusted for better readability on dark background */
+            font-style: italic;
+            margin: 10px auto;
+        }
+
+        .imgset {
+            position: relative;
+            z-index: 1;
+            margin-bottom: -215px;
+        }
+
+        .imgset img {
+            box-shadow: 0px 6px 11px 7px rgba(0, 0, 0, 0.22);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card" id="card">
+    <div class="back"></div>
+    <div class="front">
+        <div class="imgset">
+            <img width="100%" src="https://i.pinimg.com/originals/72/fa/4f/72fa4f34ce4a9af0533d411df474f6e9.jpg">
+        </div>
+    </div>
+
+    <!-- First Page -->
+    <div class="page" id="firstPage">
+        <div class="text-container">
+            <p id="head">Happy Birthday!</p>
+            <p>I am so greatful to have you in my life.I want you to know
+                that when I am no longer able to believe in anything, YOU 
+                made me believe in everything.You changed my life,made me
+                smile again.YOU made me feel loved,cared,understood,listened to 
+                and protected.</p>
+          
+        </div>
+    </div>
+    
+    <!-- Second Page -->
+    <div class="page">
+        <div class="text-container"> 
+            <p>I feel so lucky that you came to my life.Don't forget that you can always 
+                come to me no matter what happens in your life.I will not abandon you when life 
+                becomes hard and difficult.I will be your listener,advisor,secret keeper and 
+                best supporter.
+            </p>
+            <p>I LOVE YOU...<br>I NEED YOU...<br>THANK YOU FOR BEING IN MY LIFE , MY HERO .</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const card = document.getElementById('card');
+    const firstPage = document.getElementById('firstPage');
+    let pageIndex = 0;
+    const pages = card.querySelectorAll('.page');
+
+    card.addEventListener('mouseover', () => {
+        firstPage.classList.add('visible');
+    });
+
+    card.addEventListener('mouseout', () => {
+        firstPage.classList.remove('visible');
+        firstPage.style.transform = '';
+        firstPage.style.transition = '';
+
+        pages.forEach((page) => {
+            page.classList.remove('visible');
+        });
+
+        pageIndex = 0;
+    });
+
+    card.addEventListener('dblclick', () => {
+        if (pageIndex === 0) {
+            firstPage.style.transition = 'transform 0.8s ease-in-out';
+            firstPage.style.transform = 'perspective(800px) rotateY(-180deg)';
+
+            setTimeout(() => {
+                pages[1].classList.add('visible');
+            }, 100);
+
+            pageIndex++;
+        }
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
